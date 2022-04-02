@@ -1,0 +1,32 @@
+version: "3.2"
+
+networks:
+  common: {}
+
+services:
+#  db:
+#    image: postgres:14-alpin
+#    environment:
+#      POSTGRES_PASSWORD: test
+#      POSTGRES_USER: test
+#      POSTGRES_DB: auth_service
+#      POSTGRES_HOST_AUTH_METHOD: trust
+#    networks: [ "common" ]
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - type: bind
+#        source: ./postgresql.conf
+#        target: /etc/postgres.conf
+  main:
+#    depends_on:
+#      - db
+    build: .
+    restart: on-failure
+    networks: [ "common" ]
+    env_file:
+      - .env
+    privileged: true
+    ports:
+      - "8000:8000"
+    command: pipenv run main
