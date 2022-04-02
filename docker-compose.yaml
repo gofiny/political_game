@@ -1,17 +1,20 @@
 version: "3.2"
 
 networks:
-  common: {}
+  internal: {}
+  default:
+    external:
+      name: common
 
 services:
 #  politic_db:
-#    image: postgres:14-alpin
+#    image: postgres:14-alpine
 #    environment:
 #      POSTGRES_PASSWORD: test
 #      POSTGRES_USER: test
 #      POSTGRES_DB: auth_service
 #      POSTGRES_HOST_AUTH_METHOD: trust
-#    networks: [ "common" ]
+#    networks: [ "internal" ]
 #    ports:
 #      - "5432:5432"
 #    volumes:
@@ -23,10 +26,12 @@ services:
 #      - politic_db
     build: .
     restart: on-failure
-    networks: [ "common" ]
+    networks: [ "internal" ]
     env_file:
       - .env
     privileged: true
     ports:
       - "8000:8000"
     command: pipenv run main
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
