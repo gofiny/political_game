@@ -4,7 +4,7 @@ networks:
   common: {}
 
 services:
-#  db:
+#  politic_db:
 #    image: postgres:14-alpin
 #    environment:
 #      POSTGRES_PASSWORD: test
@@ -18,9 +18,9 @@ services:
 #      - type: bind
 #        source: ./postgresql.conf
 #        target: /etc/postgres.conf
-  main:
+  politic_game:
 #    depends_on:
-#      - db
+#      - politic_db
     build: .
     restart: on-failure
     networks: [ "common" ]
