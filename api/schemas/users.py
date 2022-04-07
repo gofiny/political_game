@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -15,4 +16,9 @@ class UserResponse(BaseModel):
     nickname: str
     created_at: datetime
     updated_at: datetime
+    is_active: bool
+
+
+class UserPatchResponse(BaseModel):
+    nickname: Optional[str] = Field(..., max_length=50)
     is_active: bool

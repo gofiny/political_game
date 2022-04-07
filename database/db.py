@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 
 from asyncpg import Connection, Pool, create_pool
+from asyncpg.exceptions import UniqueViolationError
 from asyncpg.transaction import Transaction
+
+from utils.exceptions import DatabaseException
 
 from .config import config
 
@@ -109,3 +112,6 @@ class DBConnection(AbstractConnection):
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self._rollback()
         await self._db.release_connection(self.connection)
+
+        if exc_type is UniqueViolationError:
+            raise DatabaseException(f"Duplication error: {exc_val.detail}")
