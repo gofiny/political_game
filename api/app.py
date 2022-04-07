@@ -1,10 +1,13 @@
 import logging
 
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 from database.db import DB, DBConnection
+from utils.exceptions import DatabaseException
 
 from .config import config
+from .errors import database_error
 from .routes import health_check, users
 
 logger = logging.getLogger(__name__)
@@ -24,13 +27,19 @@ async def on_shutdown():
 
 
 async def db_session_middleware(request: Request, call_next):
-    request.state.connection = DBConnection(app.state.db)
-    return await call_next(request)
+    try:
+        request.state.connection = DBConnection(app.state.db)
+        return await call_next(request)
+    except Exception as exc:
+        logger.error("Unhandled exception occur", exc_info=True)
+        return JSONResponse(status_code=500, content={"details": str(exc)})
 
 
 def prepare_app():
     app.add_event_handler("startup", on_startup)
     app.add_event_handler("shutdown", on_shutdown)
+
+    app.add_exception_handler(DatabaseException, database_error)
 
     app.middleware("http")(db_session_middleware)
 
