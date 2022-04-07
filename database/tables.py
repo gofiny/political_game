@@ -1,0 +1,10 @@
+users = (
+    "CREATE TABLE IF NOT EXISTS users ("
+    "   uid UUID PRIMARY KEY,"
+    "   service_id VARCHAR(50) UNIQUE NOT NULL,"
+    "   nickname VARCHAR(50) UNIQUE NOT NULL,"
+    "   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+    "   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+    "   is_active BOOLEAN NOT NULL DEFAULT 't'"
+    ")"
+)

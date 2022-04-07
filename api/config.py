@@ -1,7 +1,7 @@
-from pydantic import BaseConfig
+from pydantic import BaseSettings
 
 
-class ApiConfig(BaseConfig):
+class ApiConfig(BaseSettings):
     APP_NAME: str = "PoliticalGameApi"
     APP_HOST: str = "0.0.0.0"
     APP_PORT: str = "8000"
