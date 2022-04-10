@@ -31,5 +31,5 @@ isort = "python -m isort ."
 flake = "python -m flake8 ."
 # migrations
 makemigrations = "python -m yoyo new -m"
-migrate = "python -m yoyo apply --database $DB_DSN"
+migrate = "python do_migrations.py"
 rollback = "python -m yoyo rollback --database $DB_DSN"
