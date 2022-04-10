@@ -1,7 +1,6 @@
 version: "3.2"
 
 networks:
-  internal: {}
   default:
     external:
       name: common
@@ -14,20 +13,21 @@ services:
       POSTGRES_USER: politic
       POSTGRES_DB: politic_game
       POSTGRES_HOST_AUTH_METHOD: trust
-    networks: [ "internal" ]
     ports:
       - "5432:5432"
-#  politic_game:
-##    depends_on:
-##      - politic_db
-#    build: .
-#    restart: on-failure
-#    networks: [ "internal" ]
-#    env_file:
-#      - .env
-#    privileged: true
-#    ports:
-#      - "8000:8000"
-#    command: pipenv run main
-#    volumes:
-#      - '/var/run/docker.sock:/var/run/docker.sock'
+  politic_game:
+    depends_on:
+      - politic_db
+    build: .
+    restart: on-failure
+    networks: [ "internal" ]
+    env_file:
+      - .env
+    privileged: true
+    ports:
+      - "8000:8000"
+    command:
+      - pipenv run migrate
+      - pipenv run main
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
