@@ -20,7 +20,6 @@ services:
       - politic_db
     build: .
     restart: on-failure
-    networks: [ "internal" ]
     env_file:
       - .env
     privileged: true
