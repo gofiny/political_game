@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 from asyncpg import Connection, Pool, create_pool
@@ -7,6 +8,8 @@ from asyncpg.transaction import Transaction
 from utils.exceptions import DatabaseException
 
 from .config import config
+
+logger = logging.getLogger(__name__)
 
 
 class AbstractConnection(ABC):
