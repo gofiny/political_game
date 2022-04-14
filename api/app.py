@@ -8,7 +8,7 @@ from utils.exceptions import DatabaseException
 
 from .config import config
 from .errors import database_error
-from .routes import health_check, users
+from .routes import health_check, states, users
 
 logger = logging.getLogger(__name__)
 
@@ -45,5 +45,6 @@ def prepare_app():
 
     app.include_router(health_check.router)
     app.include_router(users.router)
+    app.include_router(states.router)
 
     return app
