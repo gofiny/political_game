@@ -8,3 +8,15 @@ users = (
     "   is_active BOOLEAN NOT NULL DEFAULT 't'"
     ")"
 )
+
+
+states = (
+    "CREATE TABLE IF NOT EXISTS states ("
+    " uid UUID PRIMARY KEY,"
+    " name VARCHAR(50) UNIQUE NOT NULL,"
+    " leader_uid UUID NOT NULL REFERENCES users (uid) ON DELETE CASCADE UNIQUE,"
+    " created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+    " updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+    " is_active BOOLEAN NOT NULL DEFAULT 't'"
+    ")"
+)

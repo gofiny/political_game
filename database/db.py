@@ -2,7 +2,7 @@ import logging
 from abc import ABC, abstractmethod
 
 from asyncpg import Connection, Pool, create_pool
-from asyncpg.exceptions import UniqueViolationError
+from asyncpg.exceptions import ForeignKeyViolationError, UniqueViolationError
 from asyncpg.transaction import Transaction
 
 from utils.exceptions import DatabaseException
@@ -118,3 +118,8 @@ class DBConnection(AbstractConnection):
 
         if exc_type is UniqueViolationError:
             raise DatabaseException(f"Duplication error: {exc_val.detail}")
+        elif exc_type is ForeignKeyViolationError:
+            raise DatabaseException(
+                f"""{exc_val.detail.split('"')[1].capitalize()} with this uid"""
+                " is not found"
+            )
