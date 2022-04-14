@@ -3,39 +3,45 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
-from api.handlers.users import (
-    create_new_user,
-    get_all_users,
-    get_user_by_uid,
-    update_user_by_uid,
+from api.handlers.states import (
+    create_new_state,
+    get_all_states,
+    get_state_by_uid,
+    update_state_by_uid,
 )
-from api.schemas.users import NewUserRequest, UserPatchResponse, UserResponse
+from api.schemas.states import (
+    NewStateRequest,
+    StatePatchResponse,
+    StateResponse,
+)
 from api.utils import get_db
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(tags=["Users"])
+router = APIRouter(tags=["States"])
 
 
-@router.post("/users", response_model=UserResponse)
-async def create_user(new_user: NewUserRequest, db=Depends(get_db)):
-    user = await create_new_user(new_user, db)
-    return user
+@router.post("/states", response_model=StateResponse)
+async def create_state(new_state: NewStateRequest, db=Depends(get_db)):
+    state = await create_new_state(new_state, db)
+    return state
 
 
-@router.get("/users/{uid}", response_model=UserResponse)
-async def get_user(uid: UUID, db=Depends(get_db)):
-    user = await get_user_by_uid(uid, db)
-    return user
+@router.get("/states/{uid}", response_model=StateResponse)
+async def get_state(uid: UUID, db=Depends(get_db)):
+    state = await get_state_by_uid(uid, db)
+    return state
 
 
-@router.get("/users", response_model=list[UserResponse])
-async def get_users(db=Depends(get_db)):
-    users = await get_all_users(db)
-    return users
+@router.get("/states", response_model=list[StateResponse])
+async def get_states(db=Depends(get_db)):
+    states = await get_all_states(db)
+    return states
 
 
-@router.patch("/users/{uid}", response_model=UserResponse)
-async def update_user(uid: UUID, update: UserPatchResponse, db=Depends(get_db)):
-    user = await update_user_by_uid(uid, update, db)
-    return user
+@router.patch("/states/{uid}", response_model=StateResponse)
+async def update_state(
+    uid: UUID, update: StatePatchResponse, db=Depends(get_db)
+):
+    state = await update_state_by_uid(uid, update, db)
+    return state

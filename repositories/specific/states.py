@@ -15,9 +15,7 @@ class StatePostgresRepo(StateAbstractRepo):
 
     async def _add(self, user: State):
         await self._connection.execute(
-            "INSERT INTO states "
-            "(uid, name, leader)"
-            "VALUES ($1, $2, $3)",
+            "INSERT INTO states " "(uid, name, leader)" "VALUES ($1, $2, $3)",
             user.uid,
             user.name,
             user.leader_uid,
